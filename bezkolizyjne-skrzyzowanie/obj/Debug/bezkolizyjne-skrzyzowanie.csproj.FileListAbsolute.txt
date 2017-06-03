@@ -1,0 +1,9 @@
+c:\users\jeremi\documents\visual studio 2017\Projects\bezkolizyjne-skrzyzowanie\bezkolizyjne-skrzyzowanie\bin\Debug\bezkolizyjne-skrzyzowanie.exe.config
+c:\users\jeremi\documents\visual studio 2017\Projects\bezkolizyjne-skrzyzowanie\bezkolizyjne-skrzyzowanie\bin\Debug\bezkolizyjne-skrzyzowanie.exe
+c:\users\jeremi\documents\visual studio 2017\Projects\bezkolizyjne-skrzyzowanie\bezkolizyjne-skrzyzowanie\bin\Debug\bezkolizyjne-skrzyzowanie.pdb
+c:\users\jeremi\documents\visual studio 2017\Projects\bezkolizyjne-skrzyzowanie\bezkolizyjne-skrzyzowanie\obj\Debug\bezkolizyjne-skrzyzowanie.csprojResolveAssemblyReference.cache
+c:\users\jeremi\documents\visual studio 2017\Projects\bezkolizyjne-skrzyzowanie\bezkolizyjne-skrzyzowanie\obj\Debug\bezkolizyjne_skrzyzowanie.Form1.resources
+c:\users\jeremi\documents\visual studio 2017\Projects\bezkolizyjne-skrzyzowanie\bezkolizyjne-skrzyzowanie\obj\Debug\bezkolizyjne_skrzyzowanie.Properties.Resources.resources
+c:\users\jeremi\documents\visual studio 2017\Projects\bezkolizyjne-skrzyzowanie\bezkolizyjne-skrzyzowanie\obj\Debug\bezkolizyjne-skrzyzowanie.csproj.GenerateResource.Cache
+c:\users\jeremi\documents\visual studio 2017\Projects\bezkolizyjne-skrzyzowanie\bezkolizyjne-skrzyzowanie\obj\Debug\bezkolizyjne-skrzyzowanie.exe
+c:\users\jeremi\documents\visual studio 2017\Projects\bezkolizyjne-skrzyzowanie\bezkolizyjne-skrzyzowanie\obj\Debug\bezkolizyjne-skrzyzowanie.pdb
