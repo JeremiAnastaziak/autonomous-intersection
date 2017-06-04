@@ -11,23 +11,42 @@ using System.Drawing;
 
 namespace bezkolizyjne_skrzyzowanie
 {
-    class Truck: Car
+    class Truck: Button
     {
-        public Button Car = new Button();
-        public Truck(int Speed, int Length, int Width, int Space)
+        string Place;
+        Form Form123;
+        public Truck(string place, int speed, int length, int width, int space, int x, int y, Form form1): base()
         {
-            Car.Width = Width;
-            Car.Height = Length;
-            Car.BackColor = Color.Pink;
-
+            Width = width;
+            Height = length;
+            BackColor = Color.Pink;
+            Form123 = form1;
+            Place = place;
+            Left = x - Width / 2;
+            Top = y - Height / 2;
         }
 
-        public void Move()
+        public delegate void moveBd(Button btn);
+        void moveButton(Button btn)
         {
-            if(true)
+            int x = btn.Location.X;
+            int y = btn.Location.Y;
+            if (Place == "pion")
             {
-                Car.Left += 10;
-                Thread.Sleep(1000);
+                btn.Location = new Point(x, y + 1);
+            } else
+            {
+                btn.Location = new Point(x + 1, y);
+            }
+        }
+
+        public void Go()
+        {
+            while (Location.X < Form123.Width && Location.Y < Form123.Height)
+            {
+
+                Invoke(new moveBd(moveButton), this);
+                Thread.Sleep(5);
             }
         }
 
