@@ -24,28 +24,30 @@ namespace bezkolizyjne_skrzyzowanie
             // Create and initialize a Button.
             Button horizontalRoad = new Button();
             Button verticalRoad = new Button();
-            int roadWidth = 30;
+            int roadWidth = 50;
             horizontalRoad.Width = ClientRectangle.Width;
             horizontalRoad.BackColor = Color.DarkGray;
             horizontalRoad.Top = (ClientRectangle.Height / 2) - (roadWidth / 2);
             horizontalRoad.Height = roadWidth;
             horizontalRoad.SendToBack();
-            verticalRoad.Height = ClientRectangle.Height;
+            verticalRoad.Height = roadWidth;
             verticalRoad.BackColor = Color.DarkGray;
+            verticalRoad.Top = (ClientRectangle.Height / 2) - (roadWidth / 2);
             verticalRoad.Left = (ClientRectangle.Width / 2) - (roadWidth / 2);
             verticalRoad.Width = roadWidth;
             verticalRoad.SendToBack();
 
+
             // Add the button to the form.
-            Controls.Add(horizontalRoad);
+            //Controls.Add(horizontalRoad);
             Controls.Add(verticalRoad);
         }
+        Intersection intersection = new Intersection();
         //generowanie auta w pionie
         private void button2_Click(object sender, EventArgs e)
         {
-            Truck car = new Truck("pion", 1, 100, 50, 2, (ClientRectangle.Width / 2), 0, this);
-            car.BringToFront();
-            Controls.Add(car);
+            Truck car = new Truck(intersection, "pion", 1, 100, 50, 40, (ClientRectangle.Width / 2), 0, this);
+            Controls.Add(car.item);
             Thread thr = new Thread(car.Go);
             thr.Start();
 
@@ -53,9 +55,8 @@ namespace bezkolizyjne_skrzyzowanie
         //generowanie auta w poziomie
         private void button3_Click(object sender, EventArgs e)
         {
-            Truck car = new Truck("poziom", 1, 50, 100, 2, 0, (ClientRectangle.Height / 2), this);
-            car.BringToFront();
-            Controls.Add(car);
+            Truck car = new Truck(intersection, "poziom", 1, 50, 100, 40, 0, (ClientRectangle.Height / 2), this);
+            Controls.Add(car.item);
             Thread thr = new Thread(car.Go);
             thr.Start();
         }

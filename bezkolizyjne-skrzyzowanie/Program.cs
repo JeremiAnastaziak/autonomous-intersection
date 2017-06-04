@@ -14,6 +14,8 @@ namespace bezkolizyjne_skrzyzowanie
         [STAThread]
         static void Main()
         {
+            Intersection intersection = new Intersection();
+
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
             Application.Run(new Form1());
