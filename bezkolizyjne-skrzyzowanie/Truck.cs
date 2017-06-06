@@ -12,7 +12,7 @@ namespace bezkolizyjne_skrzyzowanie
     class Truck : Intersection
     {
         string Place;
-        public  int Length;
+        public  int Length, Speed;
         public int Id;
 
         Form Form123;
@@ -31,15 +31,17 @@ namespace bezkolizyjne_skrzyzowanie
             item.BackColor = Color.Pink;
             Form123 = form1;
             Place = place;
+            Speed = speed;
             item.Left = x - item.Width / 2;
             item.Top = y - item.Height / 2;
-            Length = height + 2 * space;
             if (place == "pion")
             {
                 Id = Intersection.Pion.Count;
-            } 
+                Length = height + 2 * space;
+            }
             else
             {
+                Length = width + 2 * space;
                 Id = Intersection.Poziom.Count;
             }
             //carSurface.Add(0); //x_start
@@ -66,7 +68,7 @@ namespace bezkolizyjne_skrzyzowanie
                 if (Id > 0 && (!Intersection.busy || Intersection.Pion[Id][1] < (Form123.Height / 2) - Intersection.radius) && (Intersection.Pion[Id - 1][0] > Intersection.Pion[Id][1]))
                 {
 
-                    btn.Location = new Point(x, y + 1);
+                    btn.Location = new Point(x, y + Speed);
                     Intersection.Pion[Id][0] = y + 1;
                     Intersection.Pion[Id][1] = y + 1 + Length;
                     item.Text = "nth";
@@ -74,22 +76,22 @@ namespace bezkolizyjne_skrzyzowanie
                 }
                 else if (Id == 0 && (!Intersection.busy || Intersection.Pion[Id][1] < (Form123.Height / 2) - Intersection.radius))
                 {
-                    btn.Location = new Point(x, y + 1);
+                    btn.Location = new Point(x, y + Speed);
 
                     Intersection.Pion[Id][0] = y;
                     Intersection.Pion[Id][1] = y + Length;
                 }
                 else if (occupyIntersection)
                 {
-                    btn.Location = new Point(x, y + 1);
+                    btn.Location = new Point(x, y + Speed);
                     Intersection.busy = true;
                     Intersection.Pion[Id][0] = y;
                     Intersection.Pion[Id][1] = y + Length;
                     item.Text = "lock";
                 }
-                else if (Intersection.Pion[Id][0] > (Form123.Height / 2) + Intersection.radius + 40)
+                else if (Intersection.Pion[Id][0] > (Form123.Height / 2) + Intersection.radius)
                 {
-                    btn.Location = new Point(x, y +1);
+                    btn.Location = new Point(x, y + Speed);
                     Intersection.Pion[Id][0] = y;
                     Intersection.Pion[Id][1] = y + Length;
                 }
@@ -99,7 +101,7 @@ namespace bezkolizyjne_skrzyzowanie
                     occupyIntersection = true;
                     item.Text = "lock";
                 }
-                if (occupyIntersection && ((Form123.Height / 2) + Intersection.radius + 40 < Intersection.Pion[Id][0]))
+                if (occupyIntersection && ((Form123.Height / 2) + Intersection.radius < Intersection.Pion[Id][0]))
                 {
                     Intersection.busy = false;
                     occupyIntersection = false;
@@ -118,25 +120,25 @@ namespace bezkolizyjne_skrzyzowanie
                 if (Id > 0 && (!Intersection.busy || Intersection.Poziom[Id][1] < (Form123.Width / 2) - Intersection.radius) && (Intersection.Poziom[Id - 1][0] > Intersection.Poziom[Id][1]))
                 {
                     
-                    btn.Location = new Point(x + 1, y);
+                    btn.Location = new Point(x + Speed, y);
                     Intersection.Poziom[Id][0] = x + 1;
                     Intersection.Poziom[Id][1] = x + 1 + Length;
                     item.Text = "nth";
 
                 } else if (Id == 0 && (!Intersection.busy || Intersection.Poziom[Id][1] < (Form123.Width / 2) - Intersection.radius))
                 {
-                    btn.Location = new Point(x + 1, y);
+                    btn.Location = new Point(x + Speed, y);
 
                     Intersection.Poziom[Id][0] = x;
                     Intersection.Poziom[Id][1] = x + Length;
                 } else if (occupyIntersection)
                 {
-                    btn.Location = new Point(x + 1, y);
+                    btn.Location = new Point(x + Speed, y);
                     Intersection.busy = true;
                     Intersection.Poziom[Id][0] = x;
                     Intersection.Poziom[Id][1] = x + Length;
                     item.Text = "lock";
-                } else if (Intersection.Poziom[Id][0] > (Form123.Width / 2) + Intersection.radius + 40)
+                } else if (Intersection.Poziom[Id][0] > (Form123.Width / 2) + Intersection.radius)
                 {
                     btn.Location = new Point(x + 1, y);
                     Intersection.Poziom[Id][0] = x;
@@ -148,7 +150,7 @@ namespace bezkolizyjne_skrzyzowanie
                     occupyIntersection = true;
                     item.Text = "lock";
                 }
-                if (occupyIntersection && ((Form123.Width / 2) + Intersection.radius + 40 < Intersection.Poziom[Id][0]))
+                if (occupyIntersection && ((Form123.Width / 2) + Intersection.radius < Intersection.Poziom[Id][0]))
                 {
                     Intersection.busy = false;
                     occupyIntersection = false;
