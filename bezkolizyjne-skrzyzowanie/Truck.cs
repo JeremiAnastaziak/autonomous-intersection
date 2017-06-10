@@ -168,7 +168,6 @@ namespace bezkolizyjne_skrzyzowanie
                 Intersection.mut.ReleaseMutex();
 
                 Thread.Sleep(100);
-
             }
         }
 
