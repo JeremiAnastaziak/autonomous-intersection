@@ -24,7 +24,7 @@ namespace bezkolizyjne_skrzyzowanie
             // Create and initialize a Button.
             Button horizontalRoad = new Button();
             Button verticalRoad = new Button();
-            int roadWidth = 50;
+            int roadWidth = 20;
             horizontalRoad.Width = ClientRectangle.Width;
             horizontalRoad.BackColor = Color.DarkGray;
             horizontalRoad.Top = (ClientRectangle.Height / 2) - (roadWidth / 2);
@@ -43,10 +43,12 @@ namespace bezkolizyjne_skrzyzowanie
             Controls.Add(verticalRoad);
         }
         Intersection intersection = new Intersection();
+        public static Mutex mut = new Mutex();
+
         //generowanie auta w pionie
         private void button2_Click(object sender, EventArgs e)
         {
-            Truck car = new Truck(intersection, "pion", 1, 100, 50, 20, (ClientRectangle.Width / 2), 0, this);
+            Truck car = new Truck(intersection, "pion", 1, 100, 50, 10, (ClientRectangle.Width / 2), 0, this, mut);
             Controls.Add(car.item);
             Thread thr = new Thread(car.Go);
             thr.Start();
@@ -55,7 +57,7 @@ namespace bezkolizyjne_skrzyzowanie
         //generowanie auta w poziomie
         private void button3_Click(object sender, EventArgs e)
         {
-            Truck car = new Truck(intersection, "poziom", 1, 50, 100, 20, 0, (ClientRectangle.Height / 2), this);
+            Truck car = new Truck(intersection, "poziom", 1, 50, 100, 10, 0, (ClientRectangle.Height / 2), this, mut);
             Controls.Add(car.item);
             Thread thr = new Thread(car.Go);
             thr.Start();
