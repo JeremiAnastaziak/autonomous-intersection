@@ -23,7 +23,6 @@ namespace bezkolizyjne_skrzyzowanie
         List<int> carSurface = new List<int>();
         public Intersection Intersection = new Intersection();
         private bool occupyIntersection = false;
-        private bool afterIntersection = false;
 
         public Truck(Intersection intersection, string place, int speed, int height, int width, int space, int x, int y, Form form1, Mutex mut): base()
         {
@@ -48,11 +47,6 @@ namespace bezkolizyjne_skrzyzowanie
                 Length = width + space;
                 Id = Intersection.Poziom.Count;
             }
-            //carSurface.Add(0); //x_start
-            //carSurface.Add(0); //y_start
-            //carSurface.Add(width); //x_end
-            //carSurface.Add(length + 2 * space); //y_end
-            //intersection.BusyArea.Add(carSurface);
         }
 
         public void allowDriveForward(string carPosition, Button button, int x, int y, int speed)
@@ -71,8 +65,40 @@ namespace bezkolizyjne_skrzyzowanie
                 Intersection.Poziom[Id][1] = x + Length;
                 item.Text = x.ToString();
             }
-           
+        }
 
+        public void tryDriveForward(List<List<int>> positionList, Button button, int x, int y)
+        {
+            if (Id == 0 || positionList[Id - 1][0] >= positionList[Id][1] + Speed)
+            {
+                if (!Intersection.busy || positionList[Id][1] - Space < (Form123.Height / 2) - Intersection.radius - 10)
+                {
+                    allowDriveForward(Place, button, x, y, Speed);
+                }
+                else if (positionList[Id][0] > Form123.Height) {
+                    allowDriveForward(Place, button, x, y, 1000);
+                }
+                else if (positionList[Id][0] > (Form123.Height / 2))
+                {
+                    allowDriveForward(Place, button, x, y, Speed);
+                }
+                else if (occupyIntersection)
+                {
+                    Intersection.busy = true;
+                    allowDriveForward(Place, button, x, y, Speed);
+                } 
+            }
+
+            if (!Intersection.busy && positionList[Id][1] > (Form123.Height / 2) - Intersection.radius)
+            {
+                Intersection.busy = true;
+                occupyIntersection = true;
+            }
+            if (occupyIntersection && ((Form123.Height / 2) < positionList[Id][0]))
+            {
+                Intersection.busy = false;
+                occupyIntersection = false;
+            }
         }
 
         public delegate void moveBd(Button btn);
@@ -80,8 +106,7 @@ namespace bezkolizyjne_skrzyzowanie
         {
             int x = btn.Left;
             int y = btn.Top;
-            Random rnd = new Random();
-            int randSpeed = rnd.Next(1, 5);
+          
             if (Place == "pion")
             {
                 if (Intersection.Pion.Count < Id + 1)
@@ -90,34 +115,7 @@ namespace bezkolizyjne_skrzyzowanie
                     carSurface.Add(y + Length); //y_end
                     Intersection.Pion.Add(carSurface);
                 }
-
-                if (Id > 0 && (!Intersection.busy || Intersection.Pion[Id][1] - Space < (Form123.Height / 2) - Intersection.radius - 10) && (Intersection.Pion[Id - 1][0] > Intersection.Pion[Id][1]))
-                {
-                    allowDriveForward(Place, btn, x, y, randSpeed);
-                }
-                else if (Id == 0 && (!Intersection.busy || Intersection.Pion[Id][1] - Space < (Form123.Height / 2) - Intersection.radius))
-                {
-                    allowDriveForward(Place, btn, x, y, randSpeed);
-                }
-                else if (occupyIntersection)
-                {
-                    Intersection.busy = true;
-                    allowDriveForward(Place, btn, x, y, randSpeed);
-                }
-                else if (Intersection.Pion[Id][0] > (Form123.Height / 2))
-                {
-                    allowDriveForward(Place, btn, x, y, randSpeed);
-                }
-                if (!Intersection.busy && Intersection.Pion[Id][1] > (Form123.Height / 2) - Intersection.radius)
-                {
-                    Intersection.busy = true;
-                    occupyIntersection = true;
-                }
-                if (occupyIntersection && ((Form123.Height / 2) < Intersection.Pion[Id][0]))
-                {
-                    Intersection.busy = false;
-                    occupyIntersection = false;
-                }
+                tryDriveForward(Intersection.Pion, btn, x, y);
             }
             else if (Place == "poziom")
             {
@@ -126,40 +124,14 @@ namespace bezkolizyjne_skrzyzowanie
                     carSurface.Add(x); //x_start
                     carSurface.Add(x + Length); //x_end
                     Intersection.Poziom.Add(carSurface);
-                } 
-                if (Id > 0 && (!Intersection.busy || Intersection.Poziom[Id][1] - Space < (Form123.Width / 2) - Intersection.radius) && (Intersection.Poziom[Id - 1][0] > Intersection.Poziom[Id][1]))
-                {
-                    allowDriveForward(Place, btn, x, y, randSpeed);
                 }
-                else if (Id == 0 && (!Intersection.busy || Intersection.Poziom[Id][1] - Space < (Form123.Width / 2) - Intersection.radius))
-                {
-                    allowDriveForward(Place, btn, x, y, randSpeed);
-                }
-                else if (occupyIntersection)
-                {
-                    Intersection.busy = true;
-                    allowDriveForward(Place, btn, x, y, randSpeed);
-                }
-                else if (Intersection.Poziom[Id][0] > (Form123.Width / 2))
-                {
-                    allowDriveForward(Place, btn, x, y, randSpeed);
-                }
-                if (!Intersection.busy && Intersection.Poziom[Id][1] > (Form123.Width / 2) - Intersection.radius)
-                {
-                    Intersection.busy = true;
-                    occupyIntersection = true;
-                }
-                if (occupyIntersection && ((Form123.Width / 2) < Intersection.Poziom[Id][0]))
-                {
-                    Intersection.busy = false;
-                    occupyIntersection = false;
-                }
+                tryDriveForward(Intersection.Poziom, btn, x, y);
             }
         }
 
         public void Go()
         {
-            while (item.Location.X < Form123.Width && item.Location.Y < Form123.Height)
+            while (true)
             {
                 Intersection.mut.WaitOne();
 
@@ -167,9 +139,8 @@ namespace bezkolizyjne_skrzyzowanie
 
                 Intersection.mut.ReleaseMutex();
 
-                Thread.Sleep(100);
+                Thread.Sleep(500);
             }
         }
-
     }
 }

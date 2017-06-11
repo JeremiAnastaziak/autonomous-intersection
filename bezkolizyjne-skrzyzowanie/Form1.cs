@@ -48,7 +48,9 @@ namespace bezkolizyjne_skrzyzowanie
         //generowanie auta w pionie
         private void button2_Click(object sender, EventArgs e)
         {
-            Truck car = new Truck(intersection, "pion", 1, 100, 50, 10, (ClientRectangle.Width / 2), 0, this, mut);
+            Random rnd = new Random();
+            int randSpeed = rnd.Next(1, 4);
+            Truck car = new Truck(intersection, "pion", randSpeed, 100, 50, 10, (ClientRectangle.Width / 2), 0, this, mut);
             Controls.Add(car.item);
             Thread thr = new Thread(car.Go);
             thr.Start();
@@ -57,7 +59,9 @@ namespace bezkolizyjne_skrzyzowanie
         //generowanie auta w poziomie
         private void button3_Click(object sender, EventArgs e)
         {
-            Truck car = new Truck(intersection, "poziom", 1, 50, 100, 10, 0, (ClientRectangle.Height / 2), this, mut);
+            Random rnd = new Random();
+            int randSpeed = rnd.Next(1, 4);
+            Truck car = new Truck(intersection, "poziom", randSpeed, 50, 100, 10, 0, (ClientRectangle.Height / 2), this, mut);
             Controls.Add(car.item);
             Thread thr = new Thread(car.Go);
             thr.Start();
